@@ -46,11 +46,22 @@ N = len(blevels)-1
 
 cmap2 = custom_div_cmap(N, mincol='DarkBlue', midcol='CornflowerBlue' ,maxcol='w')
 
+# colormap
+
+
 cmap2.set_over('0.7') # set positive values (land) as light gray
 
 ## plot
 fig, ax = plt.subplots(1,1, figsize=(10,7))
 ax.set_aspect(1/np.cos(np.average(blat)*np.pi/180)) # set the aspect ratio for a local cartesian grid
+
+# line contour
+lws = [0.5 if level % 10 else 1 for level in blevels]
+params = dict(linestyles='solid', colors=['black'], alpha=0.4)
+
+pc = plt.contour(Blon,Blat,bdepth,levels=blevels,linewidths=lws,**params)
+ax.clabel(pc, fmt='%d')
+## filled contour
 pc = plt.contourf(Blon,Blat,bdepth, vmin=-5000, vmax=0, levels=blevels, cmap=cmap2, extend='both')
 plt.colorbar(pc, ticks=blevels, spacing='uniform')
 
